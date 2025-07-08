@@ -2,10 +2,10 @@ version: '3.8'
 services:
   zabbix-proxy:
     image: zabbix/zabbix-proxy-sqlite3:ol-7.0.16
-    user: root
+    user: 
     environment:
-      - ZBX_SERVER_HOST=cmzabbix.gruponagix.com.br
-      - ZBX_HOSTNAME=Proxy-Mello
+      - ZBX_SERVER_HOST=
+      - ZBX_HOSTNAME=
       - ZBX_SERVER_PORT=10051
       - ZBX_LOGTYPE=file
       - ZBX_LOGFILE=/var/log/zabbix/zabbix_proxy.log
