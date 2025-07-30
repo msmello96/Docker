@@ -26,11 +26,11 @@ services:
       - ZBX_ALLOWROOT=0
       - ZBX_TLSCONNECT=psk
       - ZBX_TLSACCEPT=psk
-      - ZBX_TLSPSKIDENTITY=zabbix-key
-      - ZBX_TLSPSKFILE=/etc/zabbix/zabbix-key.psk
+      - ZBX_TLSPSKIDENTITY=
+      - ZBX_TLSPSKFILE=
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /home/rootprx/zabbix-key.psk:/etc/zabbix/zabbix-key.psk:ro
+      - /home
       - zabbix-proxy-logs:/var/log/zabbix
       - zabbix-proxy-data:/var/lib/zabbix
     networks:
