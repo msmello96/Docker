@@ -2,10 +2,10 @@ version: '3.8'
 services:
   zabbix-proxy:
     image: zabbix/zabbix-proxy-sqlite3:ol-7.0.16
-    user: root
+    user: 
     environment:
-      - ZBX_SERVER_HOST=cmzabbix.gruponagix.com.br
-      - ZBX_HOSTNAME=Proxy-Nagix
+      - ZBX_SERVER_HOST=
+      - ZBX_HOSTNAME=
       - ZBX_SERVER_PORT=10051
       - ZBX_LOGTYPE=file
       - ZBX_LOGFILE=/var/log/zabbix/zabbix_proxy.log
@@ -34,11 +34,11 @@ services:
       - ZBX_ALLOWROOT=0
       - ZBX_TLSCONNECT=psk
       - ZBX_TLSACCEPT=psk
-      - ZBX_TLSPSKIDENTITY=zabbix-key
-      - ZBX_TLSPSKFILE=/etc/zabbix/.zabbix-key.psk
+      - ZBX_TLSPSKIDENTITY=
+      - ZBX_TLSPSKFILE=
     volumes:
        - /etc/localtime:/etc/localtime:ro
-       - /home/rootprx/zabbix-key.psk:/etc/zabbix/zabbix-key.psk:ro
+       - /home
        - zabbix-proxy-logs:/var/log/zabbix
        - zabbix-proxy-data:/var/lib/zabbix
     networks:
