@@ -49,8 +49,6 @@ yum update
 sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo systemctl enable --now docker
 #
-# Ajustando o caminho do arquivo de configuração do Docker
-# O correto é /etc/docker/daemon.json
 echo '{
   "bip": "10.192.168.1/24",
   "default-address-pools": [
@@ -73,14 +71,11 @@ echo "Configurando Firewall..."
 firewall-cmd --permanent --add-port=10050/tcp
 firewall-cmd --permanent --add-port=10051/tcp
 firewall-cmd --reload
-systemctl stop firewalld
-systemctl disable firewalld
 #
 echo "Criando usuário rootprx..."
 useradd rootprx
 usermod -a -G wheel rootprx
-# O script não deve incluir a senha diretamente, a menos que seja para automação
-# com 'expect'. Para um script interativo, é melhor pedir ao usuário para definir.
+#
 echo -e "${GREEN}Por favor, defina a senha para o usuário rootprx:${NC}"
 passwd rootprx
 #
@@ -89,34 +84,24 @@ rpm -Uvh https://repo.zabbix.com/zabbix/7.0/oracle/9/x86_64/zabbix-release-lates
 dnf clean all
 #
 echo "Baixando e configurando Docker-Compose para Zabbix..."
-
+#
 cd /tmp
 wget https://raw.githubusercontent.com/msmello96/Docker/refs/heads/main/Proxy/docker-compose-ol.yml
 mkdir -p /home/rootprx/docker
-mv /tmp/docker-compose-ol.yml /home/rootprx/docker/docker-compose.yml
-cd /home/rootprx/docker
-
-# Ajuste 1: Substituição no arquivo .env
-# Aqui a variável $PRX_HOSTNAME é usada DIRETAMENTE
+mv /tmp/docker-compose-ol.yml /var/opt/zabbix/docker-compose.yml
+cd /var/opt/zabbix
+#
 echo "ZBX_SERVER_HOST=cmzabbix.gruponagix.com.br
 ZBX_HOSTNAME=$PRX_HOSTNAME
 ZBX_TLSCONNECT=psk
 ZBX_TLSACCEPT=psk
 ZBX_TLSPSKIDENTITY=zabbix-key
 ZBX_TLSPSKFILE=/etc/zabbix/.zabbix-key.psk" > .env
-
-# Ajuste 2: Substituição no docker-compose.yml
-# Usa o sed para garantir que a substituição seja precisa e segura
-sed -i 's/user: /user: root/' docker-compose.yml
-sed -i 's#/home#/home/rootprx/zabbix-key.psk:/etc/zabbix/.zabbix-key.psk:ro#' docker-compose.yml
-
-echo "Criando e configurando arquivo PSK..."
-echo 114db417461b96a676f8f1ac372370cc8e7300a552cd27aeed89761368d3755b > /home/rootprx/.zabbix-key.psk
-chmod 600 /home/rootprx/zabbix-key.psk
-chown zabbix:zabbix /home/rootprx/.zabbix-key.psk
 #
-
+sed -i 's/user: /user: root/' docker-compose.yml
+sed -i 's#/home#/var/opt/zabbix/.zabbix-key.psk:/etc/zabbix/.zabbix-key.psk:ro#' docker-compose.yml
+#
 echo "Fazendo deploy do stack Docker Swarm..."
-docker stack deploy -c /home/rootprx/docker/docker-compose.yml zabbix
+docker stack deploy -c /var/opt/zabbix/docker-compose.yml zabbix
 
 echo -e "\n${GREEN}--- INSTALAÇÃO FINALIZADA COM SUCESSO! ---${NC}"
