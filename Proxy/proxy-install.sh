@@ -92,7 +92,7 @@ mv /tmp/docker-compose-ol.yml /var/opt/zabbix/docker-compose.yml
 cd /var/opt/zabbix
 #
 echo "ZBX_SERVER_HOST=cmzabbix.gruponagix.com.br
-ZBX_HOSTNAME=$PRX_HOSTNAME
+ZBX_HOSTNAME=${PRX_HOSTNAME}
 ZBX_TLSCONNECT=psk
 ZBX_TLSACCEPT=psk
 ZBX_TLSPSKIDENTITY=zabbix-key
