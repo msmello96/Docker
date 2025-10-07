@@ -104,4 +104,6 @@ sed -i 's#/home#/var/opt/zabbix/.zabbix-key.psk:/etc/zabbix/.zabbix-key.psk:ro#'
 echo "Fazendo deploy do stack Docker Swarm..."
 docker stack deploy -c /var/opt/zabbix/docker-compose.yml zabbix
 
+rm /tmp/proxy-install.sh
+
 echo -e "\n${GREEN}--- INSTALAÇÃO FINALIZADA COM SUCESSO! ---${NC}"
