@@ -37,12 +37,7 @@ services:
        - /home
        - zabbix-proxy-logs:/var/log/zabbix
        - zabbix-proxy-data:/var/lib/zabbix
-    networks:
-      - host
-networks:
-  host:
-    name: host
-    external: true
+    network_mode: host
 volumes:
   zabbix-proxy-data:
   zabbix-proxy-logs:
