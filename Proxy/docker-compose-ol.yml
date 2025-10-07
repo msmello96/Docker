@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   zabbix-proxy:
-    image: zabbix/zabbix-proxy-sqlite3:ol-7.0.16
+    image: nagixti/zabbix-proxy:v1.0
     user: 
     env_file:
       - .env
