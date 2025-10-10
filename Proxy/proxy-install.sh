@@ -91,13 +91,6 @@ mkdir -p /home/rootprx/docker
 mv /tmp/docker-compose-ol.yml /var/opt/zabbix/docker-compose.yml
 cd /var/opt/zabbix
 #
-echo "ZBX_SERVER_HOST=cmzabbix.gruponagix.com.br
-ZBX_HOSTNAME=${PRX_HOSTNAME}
-ZBX_TLSCONNECT=psk
-ZBX_TLSACCEPT=psk
-ZBX_TLSPSKIDENTITY=zabbix-key
-ZBX_TLSPSKFILE=/etc/zabbix/.zabbix-key.psk" > .env
-#
 sed -i 's/user: /user: root/' docker-compose.yml
 sed -i 's#/home#/var/opt/zabbix/.zabbix-key.psk:/etc/zabbix/.zabbix-key.psk:ro#' docker-compose.yml
 #
