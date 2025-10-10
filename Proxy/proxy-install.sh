@@ -99,4 +99,6 @@ docker stack deploy -c /var/opt/zabbix/docker-compose.yml zabbix
 
 rm /tmp/proxy-install.sh
 
+history -c
+
 echo -e "\n${GREEN}--- INSTALAÇÃO FINALIZADA COM SUCESSO! ---${NC}"
